@@ -1,0 +1,1667 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/27/2026 2:35:34 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="NOURGUERFALA"
+  DTS:CreatorName="NOURGUERFALA\nourg"
+  DTS:DTSID="{A9113302-20FA-4757-93C5-A39E8E52970A}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1016.0"
+  DTS:LocaleID="8192"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionBuild="4"
+  DTS:VersionGUID="{9317592D-FDB1-43C7-A0CA-AA1C5ED9DFFA}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DW_connection]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{D8384B78-05AC-4ABD-971D-7FAE2BE4D964}"
+      DTS:ObjectName="DW_connection">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=DW_systemeTransport;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{D8384B78-05AC-4ABD-971D-7FAE2BE4D964}localhost\SQLEXPRESS.DW_systemeTransport;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[satging_connection]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{D10F0ED3-3165-457B-AB2D-297089D15D28}"
+      DTS:ObjectName="satging_connection">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=staging_systemeTransport;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{D10F0ED3-3165-457B-AB2D-297089D15D28}localhost\SQLEXPRESS.staging_systemeTransport;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\dft_fact_voyage"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tâche de flux de données"
+      DTS:DTSID="{3A7B1756-2BA5-4FC7-89C5-C0156DA30F61}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="dft_fact_voyage"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\dft_fact_voyage\Agrégation_TMS"
+              componentClassID="Microsoft.Aggregate"
+              contactInfo="Agrégation;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;3"
+              description="Agrège des données avec des fonctions telles que Moyenne, Somme, Nombre, Max.et Min. Par exemple, regroupez des données pour calculer la somme des ventes par produit ou la moyenne des visites par jour."
+              name="Agrégation_TMS"
+              version="3">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le nombre approximatif de clés GROUP BY produites par l'agrégation. Basse indique 500 000 valeurs de clés, Moyenne indique 5 millions de valeurs de clés et Haute indique plus de 25 millions de valeurs de clés. Non spécifié indique qu'aucune valeur KeyScale n'est utilisée."
+                  name="KeyScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Spécifie le nombre exact de clés GROUP BY produites par l'agrégation. Si une valeur KeyScale est spécifiée, la valeur dans Keys est prioritaire."
+                  name="Keys" />
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le nombre approximatif de valeurs distinctes totalisé distinctement par l'agrégation dans une colonne. Basse indique 500 000 valeurs de clés, Moyenne indique 5 millions de valeurs de clés et Haute indique plus de 25 millions de valeurs de clés. Non spécifié indique qu'aucune valeur CountDistinctScale n'est utilisée."
+                  name="CountDistinctScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Spécifie le nombre exact de valeurs distinctes totalisées distinctement par l'agrégation dans une colonne. Si une valeur CountDistinctScale est spécifiée, la valeur dans CountDistinctKeys est prioritaire."
+                  name="CountDistinctKeys" />
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le pourcentage possible d'extension de la mémoire pendant l'agrégation. Les valeurs valides vont de 1 à 100."
+                  name="AutoExtendFactor">25</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1]"
+                  name="Entrée d'agrégation 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[LIVRAISON]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="LIVRAISON"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[LIVRAISON]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[VOYCLE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="VOYCLE"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYCLE]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[PLALIB]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="150"
+                      cachedName="PLALIB"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[PLALIB]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[PLAMOTI]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="PLAMOTI"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[PLAMOTI]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[SALNOM]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="150"
+                      cachedName="SALNOM"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[SALNOM]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[PLACHA1I]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="PLACHA1I"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[PLACHA1I]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[TIECODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="TIECODE"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[TIECODE]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[VOYDTD]"
+                      cachedDataType="dbDate"
+                      cachedName="VOYDTD"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYDTD]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[VOYHRD]"
+                      cachedDataType="dbTime2"
+                      cachedName="VOYHRD"
+                      cachedScale="7"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYHRD]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[VOYDTF]"
+                      cachedDataType="dbDate"
+                      cachedName="VOYDTF"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYDTF]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[VOYHRF]"
+                      cachedDataType="dbTime2"
+                      cachedName="VOYHRF"
+                      cachedScale="7"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYHRF]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[VOYPAL]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="VOYPAL"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYPAL]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[SITESALARIE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="SITESALARIE"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[SITESALARIE]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[SITECAMION]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="SITECAMION"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[SITECAMION]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[Deposant]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="Deposant"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[Deposant]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[OTSNUMBDX]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="OTSNUMBDX"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[OTSNUMBDX]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[Type_Tournee]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="Type_Tournee"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[Type_Tournee]" />
+                    <inputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1].Columns[Type_marchandise]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="150"
+                      cachedName="Type_marchandise"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[Type_marchandise]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1]"
+                  name="Sortie d'agrégation 1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Spécifie le nombre approximatif de clés GROUP BY produites par l'agrégation. Basse indique 500 000 valeurs de clés, Moyenne indique 5 millions de valeurs de clés et Haute indique plus de 25 millions de valeurs de clés. Non spécifié indique qu'aucune valeur KeyScale n'est utilisée."
+                      name="KeyScale"
+                      typeConverter="KeyScaleType">0</property>
+                    <property
+                      dataType="System.Null"
+                      description="Spécifie le nombre exact de clés GROUP BY produites par l'agrégation. Si une valeur KeyScale est spécifiée, la valeur dans Keys est prioritaire."
+                      name="Keys" />
+                  </properties>
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[LIVRAISON]"
+                      dataType="ui8"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[LIVRAISON]"
+                      name="LIVRAISON">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[LIVRAISON]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[VOYCLE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[VOYCLE]"
+                      name="VOYCLE">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYCLE]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[PLALIB]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[PLALIB]"
+                      name="PLALIB">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[PLALIB]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[PLAMOTI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[PLAMOTI]"
+                      name="PLAMOTI">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[PLAMOTI]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[SALNOM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[SALNOM]"
+                      name="SALNOM">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[SALNOM]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[PLACHA1I]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[PLACHA1I]"
+                      name="PLACHA1I">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[PLACHA1I]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[TIECODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[TIECODE]"
+                      name="TIECODE">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[TIECODE]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[VOYDTD]"
+                      dataType="dbDate"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[VOYDTD]"
+                      name="VOYDTD">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYDTD]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[VOYHRD]"
+                      dataType="dbTime2"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[VOYHRD]"
+                      name="VOYHRD"
+                      scale="7">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYHRD]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[VOYDTF]"
+                      dataType="dbDate"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[VOYDTF]"
+                      name="VOYDTF">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYDTF]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[VOYHRF]"
+                      dataType="dbTime2"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[VOYHRF]"
+                      name="VOYHRF"
+                      scale="7">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYHRF]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[VOYPAL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[VOYPAL]"
+                      name="VOYPAL">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYPAL]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[SITESALARIE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[SITESALARIE]"
+                      name="SITESALARIE">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[SITESALARIE]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[SITECAMION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[SITECAMION]"
+                      name="SITECAMION">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[SITECAMION]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[Deposant]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[Deposant]"
+                      name="Deposant">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[Deposant]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[Nbr_reference]"
+                      dataType="ui8"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[Nbr_reference]"
+                      name="Nbr_reference">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[OTSNUMBDX]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[Type_Tournee]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[Type_Tournee]"
+                      name="Type_Tournee">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[Type_Tournee]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[Type_marchandise]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      lineageId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1].Columns[Type_marchandise]"
+                      name="Type_marchandise">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Spécifie l'ID de la colonne d'entrée utilisé dans l'agrégation."
+                          name="AggregationColumnId">#{Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[Type_marchandise]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie le type d'agrégation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indique si la colonne nécessite un traitement spécial, au cas où elle contiendrait des données dépassant la taille limite ou nécessiterait une précision au-delà du type de données float."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Spécifie les options de comparaison de chaînes."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\dft_fact_voyage\Destination OLE DB"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destination OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;4"
+              description="Destination OLE DB"
+              name="Destination OLE DB"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Nombre de secondes avant l'expiration d'une commande.  Une valeur égale à 0 indique un délai d'expiration infini."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie la variable contenant le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Commande SQL à exécuter."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie la page de codes de la colonne à utiliser lorsque les informations de page de codes ne sont pas disponibles à partir de la source de données."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Force l'utilisation de la valeur de propriété DefaultCodePage lors de la description des données caractères."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le mode utilisé pour accéder à la base de données."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les valeurs fournies pour les colonnes d'identité seront copiées à la destination. Si la valeur est définie à False, les valeurs des colonnes d'identité seront générées automatiquement à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les colonnes contenant la valeur NULL auront cette valeur NULL copiée à la destination. Si la valeur est définie à False, les colonnes contenant la valeur NULL auront leurs valeurs par défaut insérées à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie les options à utiliser avec le chargement rapide.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie quand les validations sont émises pendant l'insertion des données.  Une valeur égale à 0 spécifie qu'une validation sera émise à la fin de l'insertion des données.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\dft_fact_voyage\Destination OLE DB.Connections[OleDbConnection]"
+                  description="Connexion OLE DB en cours d'exécution utilisée pour accéder à la base de données."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\dft_fact_voyage\Destination OLE DB.Inputs[Entrée de destination OLE DB]"
+                  errorOrTruncationOperation="Insérer"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrée de destination OLE DB">
+                  <externalMetadataColumns
+                    isUsed="True" />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\dft_fact_voyage\Destination OLE DB.Outputs[Sortie d'erreur de destination OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de destination OLE DB"
+                  synchronousInputId="Package\dft_fact_voyage\Destination OLE DB.Inputs[Entrée de destination OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Destination OLE DB.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\dft_fact_voyage\Destination OLE DB.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Destination OLE DB.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\dft_fact_voyage\Destination OLE DB.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Source OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;7"
+              description="Source OLE DB"
+              name="Source OLE DB TMS_SANS_DOUBLANT"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Nombre de secondes avant l'expiration d'une commande.  Une valeur égale à 0 indique un délai d'expiration infini."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowset">[dbo].[STG_TMS_SANS_DOUBLONS]</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie la variable contenant le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Commande SQL à exécuter."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="Variable contenant la commande SQL à exécuter."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie la page de codes de la colonne à utiliser lorsque les informations de page de codes ne sont pas disponibles à partir de la source de données."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Force l'utilisation de la valeur de propriété DefaultCodePage lors de la description des données caractères."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le mode utilisé pour accéder à la base de données."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="Mappages entre les paramètres de la commande SQL et les variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[satging_connection]"
+                  connectionManagerRefId="Package.ConnectionManagers[satging_connection]"
+                  description="Connexion OLE DB en cours d'exécution utilisée pour accéder à la base de données."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB]"
+                  name="Sortie de source OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[ARTCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[ARTCODE]"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[ARTCODE]"
+                      name="ARTCODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[CDATE]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[CDATE]"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[CDATE]"
+                      name="CDATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[LIVRAISON]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[LIVRAISON]"
+                      length="100"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[LIVRAISON]"
+                      name="LIVRAISON"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYCLE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[VOYCLE]"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYCLE]"
+                      name="VOYCLE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[PLALIB]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[PLALIB]"
+                      length="150"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[PLALIB]"
+                      name="PLALIB"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[PLAMOTI]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[PLAMOTI]"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[PLAMOTI]"
+                      name="PLAMOTI"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[SALNOM]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[SALNOM]"
+                      length="150"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[SALNOM]"
+                      name="SALNOM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[PLACHA1I]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[PLACHA1I]"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[PLACHA1I]"
+                      name="PLACHA1I"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[TIECODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[TIECODE]"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[TIECODE]"
+                      name="TIECODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYDTD]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[VOYDTD]"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYDTD]"
+                      name="VOYDTD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYHRD]"
+                      dataType="dbTime2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[VOYHRD]"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYHRD]"
+                      name="VOYHRD"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYDTF]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[VOYDTF]"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYDTF]"
+                      name="VOYDTF"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYHRF]"
+                      dataType="dbTime2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[VOYHRF]"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYHRF]"
+                      name="VOYHRF"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYPAL]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[VOYPAL]"
+                      length="100"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[VOYPAL]"
+                      name="VOYPAL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[SITESALARIE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[SITESALARIE]"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[SITESALARIE]"
+                      name="SITESALARIE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[SITECAMION]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[SITECAMION]"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[SITECAMION]"
+                      name="SITECAMION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[PLAKM2]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[PLAKM2]"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[PLAKM2]"
+                      name="PLAKM2"
+                      precision="10"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[Deposant]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[Deposant]"
+                      length="100"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[Deposant]"
+                      name="Deposant"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[OTSNUMBDX]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[OTSNUMBDX]"
+                      length="100"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[OTSNUMBDX]"
+                      name="OTSNUMBDX"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[Type_TRANSPORT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[Type_TRANSPORT]"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[Type_TRANSPORT]"
+                      name="Type_TRANSPORT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[CAPACITE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[CAPACITE]"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[CAPACITE]"
+                      name="CAPACITE"
+                      precision="10"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[SITE_CHAUFFEUR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[SITE_CHAUFFEUR]"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[SITE_CHAUFFEUR]"
+                      name="SITE_CHAUFFEUR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[Type_Tournee]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[Type_Tournee]"
+                      length="100"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[Type_Tournee]"
+                      name="Type_Tournee"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[Type_marchandise]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[Type_marchandise]"
+                      length="150"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[Type_marchandise]"
+                      name="Type_marchandise"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[Temperature]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[Temperature]"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[Temperature]"
+                      name="Temperature"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[SITE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[SITE]"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[SITE]"
+                      name="SITE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[LIVRAISON_MANQUANTE]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[LIVRAISON_MANQUANTE]"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].Columns[LIVRAISON_MANQUANTE]"
+                      name="LIVRAISON_MANQUANTE"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[ARTCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="ARTCODE" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[CDATE]"
+                      dataType="dbDate"
+                      name="CDATE" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[LIVRAISON]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="LIVRAISON" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[VOYCLE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="VOYCLE" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[PLALIB]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      name="PLALIB" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[PLAMOTI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="PLAMOTI" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[SALNOM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      name="SALNOM" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[PLACHA1I]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="PLACHA1I" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[TIECODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="TIECODE" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[VOYDTD]"
+                      dataType="dbDate"
+                      name="VOYDTD" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[VOYHRD]"
+                      dataType="dbTime2"
+                      name="VOYHRD"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[VOYDTF]"
+                      dataType="dbDate"
+                      name="VOYDTF" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[VOYHRF]"
+                      dataType="dbTime2"
+                      name="VOYHRF"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[VOYPAL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="VOYPAL" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[SITESALARIE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="SITESALARIE" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[SITECAMION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="SITECAMION" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[PLAKM2]"
+                      dataType="numeric"
+                      name="PLAKM2"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[Deposant]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="Deposant" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[OTSNUMBDX]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="OTSNUMBDX" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[Type_TRANSPORT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Type_TRANSPORT" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[CAPACITE]"
+                      dataType="numeric"
+                      name="CAPACITE"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[SITE_CHAUFFEUR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="SITE_CHAUFFEUR" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[Type_Tournee]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="Type_Tournee" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[Type_marchandise]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      name="Type_marchandise" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[Temperature]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Temperature" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[SITE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="SITE" />
+                    <externalMetadataColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB].ExternalColumns[LIVRAISON_MANQUANTE]"
+                      dataType="bool"
+                      name="LIVRAISON_MANQUANTE" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB]"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de source OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[ARTCODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[ARTCODE]"
+                      name="ARTCODE" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[CDATE]"
+                      dataType="dbDate"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[CDATE]"
+                      name="CDATE" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[LIVRAISON]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[LIVRAISON]"
+                      name="LIVRAISON" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[VOYCLE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[VOYCLE]"
+                      name="VOYCLE" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[PLALIB]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[PLALIB]"
+                      name="PLALIB" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[PLAMOTI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[PLAMOTI]"
+                      name="PLAMOTI" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[SALNOM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[SALNOM]"
+                      name="SALNOM" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[PLACHA1I]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[PLACHA1I]"
+                      name="PLACHA1I" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[TIECODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[TIECODE]"
+                      name="TIECODE" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[VOYDTD]"
+                      dataType="dbDate"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[VOYDTD]"
+                      name="VOYDTD" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[VOYHRD]"
+                      dataType="dbTime2"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[VOYHRD]"
+                      name="VOYHRD"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[VOYDTF]"
+                      dataType="dbDate"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[VOYDTF]"
+                      name="VOYDTF" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[VOYHRF]"
+                      dataType="dbTime2"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[VOYHRF]"
+                      name="VOYHRF"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[VOYPAL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[VOYPAL]"
+                      name="VOYPAL" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[SITESALARIE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[SITESALARIE]"
+                      name="SITESALARIE" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[SITECAMION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[SITECAMION]"
+                      name="SITECAMION" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[PLAKM2]"
+                      dataType="numeric"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[PLAKM2]"
+                      name="PLAKM2"
+                      precision="10"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[Deposant]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[Deposant]"
+                      name="Deposant" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[OTSNUMBDX]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[OTSNUMBDX]"
+                      name="OTSNUMBDX" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[Type_TRANSPORT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[Type_TRANSPORT]"
+                      name="Type_TRANSPORT" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[CAPACITE]"
+                      dataType="numeric"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[CAPACITE]"
+                      name="CAPACITE"
+                      precision="10"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[SITE_CHAUFFEUR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[SITE_CHAUFFEUR]"
+                      name="SITE_CHAUFFEUR" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[Type_Tournee]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[Type_Tournee]"
+                      name="Type_Tournee" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[Type_marchandise]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[Type_marchandise]"
+                      name="Type_marchandise" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[Temperature]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[Temperature]"
+                      name="Temperature" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[SITE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[SITE]"
+                      name="SITE" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[LIVRAISON_MANQUANTE]"
+                      dataType="bool"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[LIVRAISON_MANQUANTE]"
+                      name="LIVRAISON_MANQUANTE" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie d'erreur de source OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\dft_fact_voyage.Paths[Sortie d'agrégation 1]"
+              endId="Package\dft_fact_voyage\Destination OLE DB.Inputs[Entrée de destination OLE DB]"
+              name="Sortie d'agrégation 1"
+              startId="Package\dft_fact_voyage\Agrégation_TMS.Outputs[Sortie d'agrégation 1]" />
+            <path
+              refId="Package\dft_fact_voyage.Paths[Sortie de source OLE DB]"
+              endId="Package\dft_fact_voyage\Agrégation_TMS.Inputs[Entrée d'agrégation 1]"
+              name="Sortie de source OLE DB"
+              startId="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT.Outputs[Sortie de source OLE DB]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Cette section CDATA contient des informations sur la disposition du package. Elle comprend des informations telles que les coordonnées (x,y), la largeur et la hauteur.-->
+<!--Si vous modifiez manuellement cette section et commettez une erreur, vous pouvez la supprimer. -->
+<!--Le package pourra toujours se charger normalement, mais les informations de disposition précédente seront perdues et le concepteur réorganisera automatiquement les éléments sur l'aire de conception.-->
+<Objects
+  Version="8">
+  <!--Chaque nœud ci-dessous contiendra des propriétés qui n'affectent pas le comportement d'exécution.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="152,41.6"
+          Id="Package\dft_fact_voyage"
+          TopLeft="229.166654145553,77.9999994575978" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\dft_fact_voyage">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="273.6,41.6"
+          Id="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT"
+          TopLeft="213.333321677314,43.3333330319988" />
+        <NodeLayout
+          Size="184,46.4"
+          Id="Package\dft_fact_voyage\Agrégation_TMS"
+          TopLeft="254.999986067415,139.533332363036" />
+        <EdgeLayout
+          Id="Package\dft_fact_voyage.Paths[Sortie de source OLE DB]"
+          TopLeft="348.566653872365,84.9333330319988">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,54.5999993310373"
+              Start="0,0"
+              End="0,47.0999993310373">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47.0999993310373" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="171.2,41.6"
+          Id="Package\dft_fact_voyage\Destination OLE DB"
+          TopLeft="179.166656877432,287.733331332472" />
+        <EdgeLayout
+          Id="Package\dft_fact_voyage.Paths[Sortie d'agrégation 1]"
+          TopLeft="346.999986067415,185.933332363036">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-82.233329189983,101.799998969436"
+              Start="0,0"
+              End="-82.233329189983,94.2999989694356">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,46.8999994847178" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,46.8999994847178"
+                    Point2="0,50.8999994847178"
+                    Point3="-4,50.8999994847178" />
+                  <mssgle:LineSegment
+                    End="-78.233329189983,50.8999994847178" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-78.233329189983,50.8999994847178"
+                    Point2="-82.233329189983,50.8999994847178"
+                    Point3="-82.233329189983,54.8999994847178" />
+                  <mssgle:LineSegment
+                    End="-82.233329189983,94.2999989694356" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-49.1166645949915,55.8999994847178,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\dft_fact_voyage\Source OLE DB TMS_SANS_DOUBLANT">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

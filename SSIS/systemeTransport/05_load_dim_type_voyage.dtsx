@@ -1,0 +1,828 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/25/2026 1:51:53 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="NOURGUERFALA"
+  DTS:CreatorName="NOURGUERFALA\nourg"
+  DTS:DTSID="{3F5056B4-A577-4187-931A-886D9E042157}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1016.0"
+  DTS:LocaleID="8192"
+  DTS:ObjectName="05_load_dim_type_voyage"
+  DTS:PackageType="5"
+  DTS:VersionBuild="5"
+  DTS:VersionGUID="{DD77414E-DCB0-45EE-B2AE-4309BCC3788E}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[connection_DW]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{C71586F3-1FBD-41C0-9533-4841A86E4D78}"
+      DTS:ObjectName="connection_DW">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=DW_systemeTransport;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-05_load_dim_type_voyage-{C71586F3-1FBD-41C0-9533-4841A86E4D78}localhost\SQLEXPRESS.DW_systemeTransport;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[connection_staging]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{3887A530-DDE8-4EB2-BBE1-8690BA1C26AA}"
+      DTS:ObjectName="connection_staging">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=staging_systemeTransport;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-05_load_dim_type_voyage-{3887A530-DDE8-4EB2-BBE1-8690BA1C26AA}localhost\SQLEXPRESS.staging_systemeTransport;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Tâche de flux de données dim_type_voyage"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tâche de flux de données"
+      DTS:DTSID="{E23E0BA4-F041-4748-963D-205C01AFDF83}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Tâche de flux de données dim_type_voyage"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Tâche de flux de données dim_type_voyage\clean_source"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Colonne dérivée;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;0"
+              description="Crée de nouvelles valeurs de colonne en appliquant des expressions aux colonnes d'entrée de transformation. Créez de nouvelles colonnes ou remplacez celles qui existent déjà. Par exemple, concaténez les valeurs de la colonne 'prénom' et de la colonne 'nom' pour créer une colonne 'nom complet'."
+              name="clean_source"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Tâche de flux de données dim_type_voyage\clean_source.Inputs[Entrée de colonne dérivée]"
+                  description="Entrée de la transformation de colonnes dérivées"
+                  name="Entrée de colonne dérivée">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\clean_source.Inputs[Entrée de colonne dérivée].Columns[Type_Tournee]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="Type_Tournee"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB].Columns[Type_Tournee]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Tâche de flux de données dim_type_voyage\clean_source.Outputs[Sortie de colonne dérivée]"
+                  description="Sortie par défaut de la transformation de colonnes dérivées"
+                  exclusionGroup="1"
+                  name="Sortie de colonne dérivée"
+                  synchronousInputId="Package\Tâche de flux de données dim_type_voyage\clean_source.Inputs[Entrée de colonne dérivée]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\clean_source.Outputs[Sortie de colonne dérivée].Columns[Type_Tournee_clean]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\clean_source.Outputs[Sortie de colonne dérivée].Columns[Type_Tournee_clean]"
+                      name="Type_Tournee_clean"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">[REPLACE](#{Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB].Columns[Type_Tournee]},"?","e")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACE(Type_Tournee,"?","e")</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Tâche de flux de données dim_type_voyage\clean_source.Outputs[Sortie d'erreur de colonne dérivée]"
+                  description="Sortie d'erreur de la transformation de colonnes dérivées"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de colonne dérivée"
+                  synchronousInputId="Package\Tâche de flux de données dim_type_voyage\clean_source.Inputs[Entrée de colonne dérivée]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\clean_source.Outputs[Sortie d'erreur de colonne dérivée].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\clean_source.Outputs[Sortie d'erreur de colonne dérivée].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\clean_source.Outputs[Sortie d'erreur de colonne dérivée].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\clean_source.Outputs[Sortie d'erreur de colonne dérivée].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destination OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;4"
+              description="Destination OLE DB"
+              name="Destination OLE DB dim_type_voyage"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Nombre de secondes avant l'expiration d'une commande.  Une valeur égale à 0 indique un délai d'expiration infini."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowset">[dbo].[Dim_Type_Voyage]</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie la variable contenant le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Commande SQL à exécuter."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie la page de codes de la colonne à utiliser lorsque les informations de page de codes ne sont pas disponibles à partir de la source de données."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Force l'utilisation de la valeur de propriété DefaultCodePage lors de la description des données caractères."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le mode utilisé pour accéder à la base de données."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les valeurs fournies pour les colonnes d'identité seront copiées à la destination. Si la valeur est définie à False, les valeurs des colonnes d'identité seront générées automatiquement à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les colonnes contenant la valeur NULL auront cette valeur NULL copiée à la destination. Si la valeur est définie à False, les colonnes contenant la valeur NULL auront leurs valeurs par défaut insérées à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie les options à utiliser avec le chargement rapide.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie quand les validations sont émises pendant l'insertion des données.  Une valeur égale à 0 spécifie qu'une validation sera émise à la fin de l'insertion des données.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[connection_DW]"
+                  connectionManagerRefId="Package.ConnectionManagers[connection_DW]"
+                  description="Connexion OLE DB en cours d'exécution utilisée pour accéder à la base de données."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage.Inputs[Entrée de destination OLE DB]"
+                  errorOrTruncationOperation="Insérer"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrée de destination OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage.Inputs[Entrée de destination OLE DB].Columns[Type_Tournee]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="Type_Tournee"
+                      externalMetadataColumnId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage.Inputs[Entrée de destination OLE DB].ExternalColumns[type_tournee]"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB].Columns[Type_Tournee]" />
+                    <inputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage.Inputs[Entrée de destination OLE DB].Columns[Type_TRANSPORT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Type_TRANSPORT"
+                      externalMetadataColumnId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage.Inputs[Entrée de destination OLE DB].ExternalColumns[type_transport]"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB].Columns[Type_TRANSPORT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage.Inputs[Entrée de destination OLE DB].ExternalColumns[id_type_voyage]"
+                      dataType="i4"
+                      name="id_type_voyage" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage.Inputs[Entrée de destination OLE DB].ExternalColumns[type_tournee]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="type_tournee" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage.Inputs[Entrée de destination OLE DB].ExternalColumns[type_transport]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="type_transport" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage.Outputs[Sortie d'erreur de destination OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de destination OLE DB"
+                  synchronousInputId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage.Inputs[Entrée de destination OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Tâche de flux de données dim_type_voyage\Recherche"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Recherche;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;6"
+              description="Joint des colonnes supplémentaires au flux de données en recherchant des valeurs dans une table. Par exemple, joignez la colonne 'id employé' à la table des employés afin d'obtenir la 'date d'embauche' et le 'nom de l'employé'. Nous recommandons cette transformation lorsque la table de recherche peut être stockée en mémoire."
+              name="Recherche"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Spécifie l'instruction SQL qui génère la table de correspondance."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Dim_Type_Voyage]</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie une instruction SQL qui utilise des paramètres pour générer la table de correspondance."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Dim_Type_Voyage]) [refTable]
+where [refTable].[type_tournee] = ? and [refTable].[type_transport] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le type de connexion utilisé pour accéder au dataset de référence."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le type de cache de la table de correspondance."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie comment la transformation de recherche gère les lignes sans entrées correspondantes dans le jeu de données de référence."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le pourcentage du cache alloué aux lignes sans entrées correspondantes dans le dataset de référence."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Utilisation maximale de la mémoire pour le cache de référence sur une plateforme 32 bits."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Utilisation maximale de la mémoire pour le cache de référence sur une plateforme 64 bits."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indique si les métadonnées sont à référencer en format XML."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="id_type_voyage" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="type_tournee" dataType="DT_STR" length="100" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="type_transport" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Spécifie la liste d'identificateurs de traçabilité se mappant aux paramètres utilisés dans la propriété SQLCommand par l'instruction SQL. Les entrées dans la liste sont séparées par des points-virgules."
+                  name="ParameterMap">#{Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB].Columns[Type_Tournee]};#{Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB].Columns[Type_TRANSPORT]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie la page de codes de la colonne à utiliser lorsque les informations de page de codes ne sont pas disponibles à partir de la source de données."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Détermine si les clés dupliquées dans les données de référence doivent être traitées en tant qu'erreurs lorsque le mode Cache complet est utilisé."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Tâche de flux de données dim_type_voyage\Recherche.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[connection_DW]"
+                  connectionManagerRefId="Package.ConnectionManagers[connection_DW]"
+                  description="Gestionnaire de connexions utilisé pour accéder aux données de correspondance."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Tâche de flux de données dim_type_voyage\Recherche.Inputs[Entrée de recherche]"
+                  name="Entrée de recherche">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Recherche.Inputs[Entrée de recherche].Columns[Type_Tournee]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="Type_Tournee"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB].Columns[Type_Tournee]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Spécifie la colonne de la table de référence sur laquelle une colonne se lie."
+                          name="JoinToReferenceColumn">type_tournee</property>
+                        <property
+                          dataType="System.Null"
+                          description="Spécifie la colonne de la table de référence à partir de laquelle une colonne est copiée."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Recherche.Inputs[Entrée de recherche].Columns[Type_TRANSPORT]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Type_TRANSPORT"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB].Columns[Type_TRANSPORT]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Spécifie la colonne de la table de référence sur laquelle une colonne se lie."
+                          name="JoinToReferenceColumn">type_transport</property>
+                        <property
+                          dataType="System.Null"
+                          description="Spécifie la colonne de la table de référence à partir de laquelle une colonne est copiée."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Tâche de flux de données dim_type_voyage\Recherche.Outputs[Sortie de recherche avec correspondance]"
+                  errorOrTruncationOperation="Recherche"
+                  exclusionGroup="1"
+                  name="Sortie de recherche avec correspondance"
+                  synchronousInputId="Package\Tâche de flux de données dim_type_voyage\Recherche.Inputs[Entrée de recherche]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Recherche.Outputs[Sortie de recherche avec correspondance].Columns[type_tournee]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Copie de colonnes"
+                      length="100"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Recherche.Outputs[Sortie de recherche avec correspondance].Columns[type_tournee]"
+                      name="type_tournee"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Spécifie la colonne de la table de référence à partir de laquelle une colonne est copiée."
+                          name="CopyFromReferenceColumn">type_tournee</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Recherche.Outputs[Sortie de recherche avec correspondance].Columns[type_transport]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Copie de colonnes"
+                      length="50"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Recherche.Outputs[Sortie de recherche avec correspondance].Columns[type_transport]"
+                      name="type_transport"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Spécifie la colonne de la table de référence à partir de laquelle une colonne est copiée."
+                          name="CopyFromReferenceColumn">type_transport</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Tâche de flux de données dim_type_voyage\Recherche.Outputs[Sortie de recherche sans correspondance]"
+                  description="Sortie de recherche gérant les lignes sans entrées correspondantes dans le dataset de référence. Utilisez cette sortie lorsque la propriété NoMatchBehavior a la valeur « Envoyez les lignes sans entrées correspondantes dans la sortie sans correspondance »."
+                  exclusionGroup="1"
+                  name="Sortie de recherche sans correspondance"
+                  synchronousInputId="Package\Tâche de flux de données dim_type_voyage\Recherche.Inputs[Entrée de recherche]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Tâche de flux de données dim_type_voyage\Recherche.Outputs[Sortie d'erreur de recherche]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de recherche"
+                  synchronousInputId="Package\Tâche de flux de données dim_type_voyage\Recherche.Inputs[Entrée de recherche]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Recherche.Outputs[Sortie d'erreur de recherche].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Recherche.Outputs[Sortie d'erreur de recherche].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Recherche.Outputs[Sortie d'erreur de recherche].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Recherche.Outputs[Sortie d'erreur de recherche].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Source OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;7"
+              description="Source OLE DB"
+              name="Source OLE DB tms staging"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Nombre de secondes avant l'expiration d'une commande.  Une valeur égale à 0 indique un délai d'expiration infini."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie la variable contenant le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Commande SQL à exécuter."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT DISTINCT
+    Type_Tournee,
+    Type_TRANSPORT
+FROM dbo.STG_TMS
+WHERE Type_Tournee IS NOT NULL
+  AND Type_TRANSPORT IS NOT NULL;</property>
+                <property
+                  dataType="System.String"
+                  description="Variable contenant la commande SQL à exécuter."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie la page de codes de la colonne à utiliser lorsque les informations de page de codes ne sont pas disponibles à partir de la source de données."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Force l'utilisation de la valeur de propriété DefaultCodePage lors de la description des données caractères."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le mode utilisé pour accéder à la base de données."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="Mappages entre les paramètres de la commande SQL et les variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[connection_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[connection_staging]"
+                  description="Connexion OLE DB en cours d'exécution utilisée pour accéder à la base de données."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB]"
+                  name="Sortie de source OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB].Columns[Type_Tournee]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB].ExternalColumns[Type_Tournee]"
+                      length="100"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB].Columns[Type_Tournee]"
+                      name="Type_Tournee"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB].Columns[Type_TRANSPORT]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB].ExternalColumns[Type_TRANSPORT]"
+                      length="50"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB].Columns[Type_TRANSPORT]"
+                      name="Type_TRANSPORT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB].ExternalColumns[Type_Tournee]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="Type_Tournee" />
+                    <externalMetadataColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB].ExternalColumns[Type_TRANSPORT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Type_TRANSPORT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie d'erreur de source OLE DB]"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de source OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie d'erreur de source OLE DB].Columns[Type_Tournee]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie d'erreur de source OLE DB].Columns[Type_Tournee]"
+                      name="Type_Tournee" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie d'erreur de source OLE DB].Columns[Type_TRANSPORT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie d'erreur de source OLE DB].Columns[Type_TRANSPORT]"
+                      name="Type_TRANSPORT" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie d'erreur de source OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie d'erreur de source OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie d'erreur de source OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie d'erreur de source OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Tâche de flux de données dim_type_voyage.Paths[Sortie de colonne dérivée]"
+              endId="Package\Tâche de flux de données dim_type_voyage\Recherche.Inputs[Entrée de recherche]"
+              name="Sortie de colonne dérivée"
+              startId="Package\Tâche de flux de données dim_type_voyage\clean_source.Outputs[Sortie de colonne dérivée]" />
+            <path
+              refId="Package\Tâche de flux de données dim_type_voyage.Paths[Sortie de recherche sans correspondance]"
+              endId="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage.Inputs[Entrée de destination OLE DB]"
+              name="Sortie de recherche sans correspondance"
+              startId="Package\Tâche de flux de données dim_type_voyage\Recherche.Outputs[Sortie de recherche sans correspondance]" />
+            <path
+              refId="Package\Tâche de flux de données dim_type_voyage.Paths[Sortie de source OLE DB]"
+              endId="Package\Tâche de flux de données dim_type_voyage\clean_source.Inputs[Entrée de colonne dérivée]"
+              name="Sortie de source OLE DB"
+              startId="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging.Outputs[Sortie de source OLE DB]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Cette section CDATA contient des informations sur la disposition du package. Elle comprend des informations telles que les coordonnées (x,y), la largeur et la hauteur.-->
+<!--Si vous modifiez manuellement cette section et commettez une erreur, vous pouvez la supprimer. -->
+<!--Le package pourra toujours se charger normalement, mais les informations de disposition précédente seront perdues et le concepteur réorganisera automatiquement les éléments sur l'aire de conception.-->
+<Objects
+  Version="8">
+  <!--Chaque nœud ci-dessous contiendra des propriétés qui n'affectent pas le comportement d'exécution.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="281.6,41.6"
+          Id="Package\Tâche de flux de données dim_type_voyage"
+          TopLeft="229.166654145553,108.333332579997" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Tâche de flux de données dim_type_voyage">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="208,41.6"
+          Id="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging"
+          TopLeft="233.333320584563,116.999999186397" />
+        <NodeLayout
+          Size="140,41.6"
+          Id="Package\Tâche de flux de données dim_type_voyage\clean_source"
+          TopLeft="251.666652916207,247.866664943033" />
+        <EdgeLayout
+          Id="Package\Tâche de flux de données dim_type_voyage.Paths[Sortie de source OLE DB]"
+          TopLeft="337.333320584563,158.599999186397">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-15.6666676683557,89.2666657566363"
+              Start="0,0"
+              End="-15.6666676683557,81.7666657566363">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.6333328783181" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,40.6333328783181"
+                    Point2="0,44.6333328783181"
+                    Point3="-4,44.6333328783181" />
+                  <mssgle:LineSegment
+                    End="-11.6666676683557,44.6333328783181" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-11.6666676683557,44.6333328783181"
+                    Point2="-15.6666676683557,44.6333328783181"
+                    Point3="-15.6666676683557,48.6333328783181" />
+                  <mssgle:LineSegment
+                    End="-15.6666676683557,81.7666657566363" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="128.8,41.6"
+          Id="Package\Tâche de flux de données dim_type_voyage\Recherche"
+          TopLeft="245.833319901593,370.933330753909" />
+        <EdgeLayout
+          Id="Package\Tâche de flux de données dim_type_voyage.Paths[Sortie de colonne dérivée]"
+          TopLeft="321.666652916207,289.466664943033">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-11.433333014614,81.4666658108764"
+              Start="0,0"
+              End="-11.433333014614,73.9666658108764">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.7333329054382" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,36.7333329054382"
+                    Point2="0,40.7333329054382"
+                    Point3="-4,40.7333329054382" />
+                  <mssgle:LineSegment
+                    End="-7.43333301461405,40.7333329054382" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-7.43333301461405,40.7333329054382"
+                    Point2="-11.433333014614,40.7333329054382"
+                    Point3="-11.433333014614,44.7333329054382" />
+                  <mssgle:LineSegment
+                    End="-11.433333014614,73.9666658108764" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="255.2,41.6"
+          Id="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage"
+          TopLeft="202.499988935888,481.866663315826" />
+        <EdgeLayout
+          Id="Package\Tâche de flux de données dim_type_voyage.Paths[Sortie de recherche sans correspondance]"
+          TopLeft="310.233319901593,412.533330753909">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="19.8666690342955,69.3333325619168"
+              Start="0,0"
+              End="19.8666690342955,61.8333325619168">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.6666662809584" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,30.6666662809584"
+                    Point2="0,34.6666662809584"
+                    Point3="4,34.6666662809584" />
+                  <mssgle:LineSegment
+                    End="15.8666690342955,34.6666662809584" />
+                  <mssgle:CubicBezierSegment
+                    Point1="15.8666690342955,34.6666662809584"
+                    Point2="19.8666690342955,34.6666662809584"
+                    Point3="19.8666690342955,38.6666662809584" />
+                  <mssgle:LineSegment
+                    End="19.8666690342955,61.8333325619168" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-81.5686772016023,39.6666662809584,183.0040234375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Tâche de flux de données dim_type_voyage\Source OLE DB tms staging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Tâche de flux de données dim_type_voyage\Recherche">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Dim_Type_Voyage]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Tâche de flux de données dim_type_voyage\Destination OLE DB dim_type_voyage">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

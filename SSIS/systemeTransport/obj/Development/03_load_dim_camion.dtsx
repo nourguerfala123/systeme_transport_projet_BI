@@ -1,0 +1,624 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/24/2026 10:03:53 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="NOURGUERFALA"
+  DTS:CreatorName="NOURGUERFALA\nourg"
+  DTS:DTSID="{5898DCF6-714F-4A51-99A6-683BDA7762BC}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1016.0"
+  DTS:LocaleID="8192"
+  DTS:ObjectName="03_load_dim_camion"
+  DTS:PackageType="5"
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{A572F56A-EDC6-4C56-A3D1-A32832B2F656}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[connection_DW]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{746D2581-1AE9-49C9-82D0-66C646DC8874}"
+      DTS:ObjectName="connection_DW">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=DW_systemeTransport;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-03_load_dim_camion-{746D2581-1AE9-49C9-82D0-66C646DC8874}localhost\SQLEXPRESS.DW_systemeTransport;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[connection_staging]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{57FC3E83-D0D6-46DF-9391-94610EB5696E}"
+      DTS:ObjectName="connection_staging">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=staging_systemeTransport;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-03_load_dim_camion-{57FC3E83-D0D6-46DF-9391-94610EB5696E}localhost\SQLEXPRESS.staging_systemeTransport;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT_Load_Dim_Camion"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tâche de flux de données"
+      DTS:DTSID="{9DFEF9B3-DF81-457B-8895-5ECC2D8D9602}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT_Load_Dim_Camion"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT_Load_Dim_Camion\Colonne dérivée"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Colonne dérivée;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;0"
+              description="Crée de nouvelles valeurs de colonne en appliquant des expressions aux colonnes d'entrée de transformation. Créez de nouvelles colonnes ou remplacez celles qui existent déjà. Par exemple, concaténez les valeurs de la colonne 'prénom' et de la colonne 'nom' pour créer une colonne 'nom complet'."
+              name="Colonne dérivée"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Inputs[Entrée de colonne dérivée]"
+                  description="Entrée de la transformation de colonnes dérivées"
+                  name="Entrée de colonne dérivée">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Inputs[Entrée de colonne dérivée].Columns[PLAMOTI]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="PLAMOTI"
+                      lineageId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].Columns[PLAMOTI]" />
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Inputs[Entrée de colonne dérivée].Columns[SITECAMION]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="SITECAMION"
+                      lineageId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].Columns[SITECAMION]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Outputs[Sortie de colonne dérivée]"
+                  description="Sortie par défaut de la transformation de colonnes dérivées"
+                  exclusionGroup="1"
+                  name="Sortie de colonne dérivée"
+                  synchronousInputId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Inputs[Entrée de colonne dérivée]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[PLAMOTI_CLEAN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[PLAMOTI_CLEAN]"
+                      name="PLAMOTI_CLEAN"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">[TRIM](#{Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].Columns[PLAMOTI]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">TRIM(PLAMOTI)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[SITECAMION_CLEAN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Outputs[Sortie de colonne dérivée].Columns[SITECAMION_CLEAN]"
+                      name="SITECAMION_CLEAN"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">[TRIM](#{Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].Columns[SITECAMION]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">TRIM(SITECAMION)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Outputs[Sortie d'erreur de colonne dérivée]"
+                  description="Sortie d'erreur de la transformation de colonnes dérivées"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de colonne dérivée"
+                  synchronousInputId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Inputs[Entrée de colonne dérivée]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Outputs[Sortie d'erreur de colonne dérivée].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Outputs[Sortie d'erreur de colonne dérivée].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Outputs[Sortie d'erreur de colonne dérivée].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Outputs[Sortie d'erreur de colonne dérivée].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT_Load_Dim_Camion\Destination OLE DB"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destination OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;4"
+              description="Destination OLE DB"
+              name="Destination OLE DB"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Nombre de secondes avant l'expiration d'une commande.  Une valeur égale à 0 indique un délai d'expiration infini."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowset">[dbo].[Dim_Camion]</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie la variable contenant le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Commande SQL à exécuter."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie la page de codes de la colonne à utiliser lorsque les informations de page de codes ne sont pas disponibles à partir de la source de données."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Force l'utilisation de la valeur de propriété DefaultCodePage lors de la description des données caractères."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le mode utilisé pour accéder à la base de données."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les valeurs fournies pour les colonnes d'identité seront copiées à la destination. Si la valeur est définie à False, les valeurs des colonnes d'identité seront générées automatiquement à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les colonnes contenant la valeur NULL auront cette valeur NULL copiée à la destination. Si la valeur est définie à False, les colonnes contenant la valeur NULL auront leurs valeurs par défaut insérées à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie les options à utiliser avec le chargement rapide.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie quand les validations sont émises pendant l'insertion des données.  Une valeur égale à 0 spécifie qu'une validation sera émise à la fin de l'insertion des données.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[connection_DW]"
+                  connectionManagerRefId="Package.ConnectionManagers[connection_DW]"
+                  description="Connexion OLE DB en cours d'exécution utilisée pour accéder à la base de données."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Inputs[Entrée de destination OLE DB]"
+                  errorOrTruncationOperation="Insérer"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrée de destination OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Inputs[Entrée de destination OLE DB].Columns[CAPACITE]"
+                      cachedDataType="numeric"
+                      cachedName="CAPACITE"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[capacite]"
+                      lineageId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].Columns[CAPACITE]" />
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Inputs[Entrée de destination OLE DB].Columns[SITECAMION]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="SITECAMION"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[site_camion]"
+                      lineageId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].Columns[SITECAMION]" />
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Inputs[Entrée de destination OLE DB].Columns[PLAMOTI]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="PLAMOTI"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[immatriculation]"
+                      lineageId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].Columns[PLAMOTI]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[id_camion]"
+                      dataType="i4"
+                      name="id_camion" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[immatriculation]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="immatriculation" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[capacite]"
+                      dataType="numeric"
+                      name="capacite"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Inputs[Entrée de destination OLE DB].ExternalColumns[site_camion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="site_camion" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Outputs[Sortie d'erreur de destination OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de destination OLE DB"
+                  synchronousInputId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Inputs[Entrée de destination OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT_Load_Dim_Camion\Source OLE DB"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Source OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;7"
+              description="Source OLE DB"
+              name="Source OLE DB"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Nombre de secondes avant l'expiration d'une commande.  Une valeur égale à 0 indique un délai d'expiration infini."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie la variable contenant le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Commande SQL à exécuter."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">WITH Camions AS
+(
+    SELECT
+        PLAMOTI,
+        CAPACITE,
+        SITECAMION,
+        VOYDTD,
+        VOYHRD,
+        ROW_NUMBER() OVER (
+            PARTITION BY PLAMOTI
+            ORDER BY VOYDTD DESC, VOYHRD DESC
+        ) AS rn
+    FROM dbo.STG_TMS
+    WHERE PLAMOTI IS NOT NULL
+)
+SELECT
+    PLAMOTI,
+    CAPACITE,
+    SITECAMION
+FROM Camions
+WHERE rn = 1;</property>
+                <property
+                  dataType="System.String"
+                  description="Variable contenant la commande SQL à exécuter."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie la page de codes de la colonne à utiliser lorsque les informations de page de codes ne sont pas disponibles à partir de la source de données."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Force l'utilisation de la valeur de propriété DefaultCodePage lors de la description des données caractères."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le mode utilisé pour accéder à la base de données."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="Mappages entre les paramètres de la commande SQL et les variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT_Load_Dim_Camion\Source OLE DB.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[connection_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[connection_staging]"
+                  description="Connexion OLE DB en cours d'exécution utilisée pour accéder à la base de données."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB]"
+                  name="Sortie de source OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].Columns[PLAMOTI]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].ExternalColumns[PLAMOTI]"
+                      length="50"
+                      lineageId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].Columns[PLAMOTI]"
+                      name="PLAMOTI"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].Columns[CAPACITE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].ExternalColumns[CAPACITE]"
+                      lineageId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].Columns[CAPACITE]"
+                      name="CAPACITE"
+                      precision="10"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].Columns[SITECAMION]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].ExternalColumns[SITECAMION]"
+                      length="50"
+                      lineageId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].Columns[SITECAMION]"
+                      name="SITECAMION"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].ExternalColumns[PLAMOTI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="PLAMOTI" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].ExternalColumns[CAPACITE]"
+                      dataType="numeric"
+                      name="CAPACITE"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB].ExternalColumns[SITECAMION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="SITECAMION" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie d'erreur de source OLE DB]"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de source OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie d'erreur de source OLE DB].Columns[PLAMOTI]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie d'erreur de source OLE DB].Columns[PLAMOTI]"
+                      name="PLAMOTI" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie d'erreur de source OLE DB].Columns[CAPACITE]"
+                      dataType="numeric"
+                      lineageId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie d'erreur de source OLE DB].Columns[CAPACITE]"
+                      name="CAPACITE"
+                      precision="10"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie d'erreur de source OLE DB].Columns[SITECAMION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie d'erreur de source OLE DB].Columns[SITECAMION]"
+                      name="SITECAMION" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie d'erreur de source OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie d'erreur de source OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie d'erreur de source OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie d'erreur de source OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT_Load_Dim_Camion.Paths[Sortie de colonne dérivée]"
+              endId="Package\DFT_Load_Dim_Camion\Destination OLE DB.Inputs[Entrée de destination OLE DB]"
+              name="Sortie de colonne dérivée"
+              startId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Outputs[Sortie de colonne dérivée]" />
+            <path
+              refId="Package\DFT_Load_Dim_Camion.Paths[Sortie de source OLE DB]"
+              endId="Package\DFT_Load_Dim_Camion\Colonne dérivée.Inputs[Entrée de colonne dérivée]"
+              name="Sortie de source OLE DB"
+              startId="Package\DFT_Load_Dim_Camion\Source OLE DB.Outputs[Sortie de source OLE DB]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Cette section CDATA contient des informations sur la disposition du package. Elle comprend des informations telles que les coordonnées (x,y), la largeur et la hauteur.-->
+<!--Si vous modifiez manuellement cette section et commettez une erreur, vous pouvez la supprimer. -->
+<!--Le package pourra toujours se charger normalement, mais les informations de disposition précédente seront perdues et le concepteur réorganisera automatiquement les éléments sur l'aire de conception.-->
+<Objects
+  Version="8">
+  <!--Chaque nœud ci-dessous contiendra des propriétés qui n'affectent pas le comportement d'exécution.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="193.6,41.6"
+          Id="Package\DFT_Load_Dim_Camion"
+          TopLeft="152.499991667768,67.5999995299181" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT_Load_Dim_Camion">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="152,41.6"
+          Id="Package\DFT_Load_Dim_Camion\Source OLE DB"
+          TopLeft="206.666655374898,92.7333326884773" />
+        <NodeLayout
+          Size="171.2,41.6"
+          Id="Package\DFT_Load_Dim_Camion\Destination OLE DB"
+          TopLeft="199.999989072482,351.86666421983" />
+        <NodeLayout
+          Size="154.4,41.6"
+          Id="Package\DFT_Load_Dim_Camion\Colonne dérivée"
+          TopLeft="212.499988389512,215.799998499354" />
+        <EdgeLayout
+          Id="Package\DFT_Load_Dim_Camion.Paths[Sortie de source OLE DB]"
+          TopLeft="286.183321882205,134.333332688477">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,81.4666658108764"
+              Start="0,0"
+              End="0,73.9666658108764">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,73.9666658108764" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT_Load_Dim_Camion.Paths[Sortie de colonne dérivée]"
+          TopLeft="287.649988730997,257.399998499354">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,94.466665720476"
+              Start="0,0"
+              End="0,86.966665720476">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,86.966665720476" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT_Load_Dim_Camion\Source OLE DB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT_Load_Dim_Camion\Destination OLE DB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

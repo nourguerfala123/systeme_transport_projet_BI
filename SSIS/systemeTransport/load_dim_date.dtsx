@@ -1,0 +1,95 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/18/2026 11:24:32 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="NOURGUERFALA"
+  DTS:CreatorName="NOURGUERFALA\nourg"
+  DTS:DTSID="{28628087-2427-4EFA-BBB7-D77CE861CBF8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1016.0"
+  DTS:LocaleID="8192"
+  DTS:ObjectName="load_dim_date"
+  DTS:PackageType="5"
+  DTS:VersionBuild="14"
+  DTS:VersionGUID="{DEAADA01-DEC1-4774-AD62-5AC42A748A70}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[connection_dataWarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{4F0A28CC-B562-4258-8D7E-D46373928E34}"
+      DTS:ObjectName="connection_dataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=DW_systemeTransport;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package-{4F0A28CC-B562-4258-8D7E-D46373928E34}localhost\SQLEXPRESS.DW_systemeTransport;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[connection_staging]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{70A646BE-7ABA-41C7-BDE7-0C975EB467D7}"
+      DTS:ObjectName="connection_staging">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=staging_systemeTransport;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package-{70A646BE-7ABA-41C7-BDE7-0C975EB467D7}localhost\SQLEXPRESS.staging_systemeTransport;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[{B8DAFD5E-6744-4F19-815C-0DA02B14BA56\}]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{B8DAFD5E-6744-4F19-815C-0DA02B14BA56}"
+      DTS:ObjectName="{B8DAFD5E-6744-4F19-815C-0DA02B14BA56}">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SQL_Load_Dim_Date"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tâche d'exécution de requêtes SQL"
+      DTS:DTSID="{14F20169-F393-4712-9017-F897B277F928}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL_Load_Dim_Date"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4F0A28CC-B562-4258-8D7E-D46373928E34}"
+          SQLTask:SqlStatementSource="SET DATEFIRST 1;&#xA;&#xA;;WITH Dates AS&#xA;(&#xA;    SELECT CAST('2026-01-01' AS DATE) AS date_complete&#xA;&#xA;    UNION ALL&#xA;&#xA;    SELECT DATEADD(DAY, 1, date_complete)&#xA;    FROM Dates&#xA;    WHERE date_complete &lt; '2026-12-31'&#xA;)&#xA;INSERT INTO dbo.Dim_Date&#xA;(&#xA;    id_date,&#xA;    date_complete,&#xA;    jour,&#xA;    nom_jour,&#xA;    mois,&#xA;    nom_mois,&#xA;    trimestre,&#xA;    annee&#xA;)&#xA;SELECT&#xA;    YEAR(D.date_complete) * 10000&#xA;        + MONTH(D.date_complete) * 100&#xA;        + DAY(D.date_complete),&#xA;&#xA;    D.date_complete,&#xA;&#xA;    DAY(D.date_complete),&#xA;&#xA;    CASE DATEPART(WEEKDAY, D.date_complete)&#xA;        WHEN 1 THEN 'Lundi'&#xA;        WHEN 2 THEN 'Mardi'&#xA;        WHEN 3 THEN 'Mercredi'&#xA;        WHEN 4 THEN 'Jeudi'&#xA;        WHEN 5 THEN 'Vendredi'&#xA;        WHEN 6 THEN 'Samedi'&#xA;        WHEN 7 THEN 'Dimanche'&#xA;    END,&#xA;&#xA;    MONTH(D.date_complete),&#xA;&#xA;    CASE MONTH(D.date_complete)&#xA;        WHEN 1 THEN 'Janvier'&#xA;        WHEN 2 THEN 'Février'&#xA;        WHEN 3 THEN 'Mars'&#xA;        WHEN 4 THEN 'Avril'&#xA;        WHEN 5 THEN 'Mai'&#xA;        WHEN 6 THEN 'Juin'&#xA;        WHEN 7 THEN 'Juillet'&#xA;        WHEN 8 THEN 'Août'&#xA;        WHEN 9 THEN 'Septembre'&#xA;        WHEN 10 THEN 'Octobre'&#xA;        WHEN 11 THEN 'Novembre'&#xA;        WHEN 12 THEN 'Décembre'&#xA;    END,&#xA;&#xA;    DATEPART(QUARTER, D.date_complete),&#xA;&#xA;    YEAR(D.date_complete)&#xA;&#xA;FROM Dates D&#xA;WHERE NOT EXISTS&#xA;(&#xA;    SELECT 1&#xA;    FROM dbo.Dim_Date DD&#xA;    WHERE DD.date_complete = D.date_complete&#xA;)&#xA;OPTION (MAXRECURSION 0);" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Cette section CDATA contient des informations sur la disposition du package. Elle comprend des informations telles que les coordonnées (x,y), la largeur et la hauteur.-->
+<!--Si vous modifiez manuellement cette section et commettez une erreur, vous pouvez la supprimer. -->
+<!--Le package pourra toujours se charger normalement, mais les informations de disposition précédente seront perdues et le concepteur réorganisera automatiquement les éléments sur l'aire de conception.-->
+<Objects
+  Version="8">
+  <!--Chaque nœud ci-dessous contiendra des propriétés qui n'affectent pas le comportement d'exécution.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="180,41.6"
+          Id="Package\SQL_Load_Dim_Date"
+          TopLeft="145.833325365352,110.933332561917" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

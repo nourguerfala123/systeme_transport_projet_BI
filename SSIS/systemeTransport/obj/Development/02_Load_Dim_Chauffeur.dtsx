@@ -1,0 +1,1145 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/23/2026 10:38:23 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="NOURGUERFALA"
+  DTS:CreatorName="NOURGUERFALA\nourg"
+  DTS:DTSID="{11B379CA-4DCE-481B-B37F-47C5F047E05F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1016.0"
+  DTS:LocaleID="8192"
+  DTS:ObjectName="02_Load_Dim_Chauffeur"
+  DTS:PackageType="5"
+  DTS:VersionBuild="26"
+  DTS:VersionGUID="{3C34C639-E2D6-4963-B272-BFA1E3A0F842}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[connection_DW]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{1E899719-459D-43A8-889E-324C93C62021}"
+      DTS:ObjectName="connection_DW">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=DW_systemeTransport;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-02_Load_Dim_Chauffeur-{1E899719-459D-43A8-889E-324C93C62021}localhost\SQLEXPRESS.DW_systemeTransport;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[connection_staging]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{0209B9A0-8366-4738-8F67-2FA7FB8BE54B}"
+      DTS:ObjectName="connection_staging">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=staging_systemeTransport;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-02_Load_Dim_Chauffeur-{0209B9A0-8366-4738-8F67-2FA7FB8BE54B}localhost\SQLEXPRESS.staging_systemeTransport;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DFT_Load_Dim_Chauffeur"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Tâche de flux de données"
+      DTS:DTSID="{158FF8E0-F5A5-47E9-BDF8-7C218EE6E461}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT_Load_Dim_Chauffeur"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Fractionnement conditionnel;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;0"
+              description="Achemine des lignes de données vers différentes sorties, selon le contexte des données. Utilisez des conditions (expressions SSIS) pour spécifier les lignes qui seront acheminées. Par exemple, séparez les enregistrements qui doivent être nettoyés de ceux qui sont prêts à être chargés ou acheminez uniquement un sous-ensemble d'enregistrements."
+              name="condition_Valid_Chauffeurs"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs.Inputs[Entrée de fractionnement conditionnel]"
+                  description="Entrée vers la transformation de fractionnement conditionnel"
+                  name="Entrée de fractionnement conditionnel">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs.Inputs[Entrée de fractionnement conditionnel].Columns[CODE_CLEAN]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="CODE_CLEAN"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie de colonne dérivée].Columns[CODE_CLEAN]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs.Outputs[Chauffeurs_Valides]"
+                  description="Sortie 1 de la transformation de fractionnement conditionnel"
+                  errorOrTruncationOperation="Calcul"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Chauffeurs_Valides"
+                  synchronousInputId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs.Inputs[Entrée de fractionnement conditionnel]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Spécifie l'expression. Cette version d'expression utilise les identificateurs de traçabilité à la place des noms de colonnes."
+                      name="Expression">![ISNULL](#{Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie de colonne dérivée].Columns[CODE_CLEAN]}) &amp;&amp; [LEN](#{Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie de colonne dérivée].Columns[CODE_CLEAN]}) &gt; 0</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Spécifie la version claire de l'expression. Cette version d'expression utilise les noms de colonnes."
+                      expressionType="Notify"
+                      name="FriendlyExpression">!ISNULL(CODE_CLEAN) &amp;&amp; LEN(CODE_CLEAN) &gt; 0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Spécifie la position de la condition dans la liste des conditions que la transformation évalue. L'ordre d'évaluation se fait par ordre croissant de valeur."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs.Outputs[Chauffeurs_Invalides]"
+                  description="Sortie 2 de la transformation de fractionnement conditionnel"
+                  errorOrTruncationOperation="Calcul"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Chauffeurs_Invalides"
+                  synchronousInputId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs.Inputs[Entrée de fractionnement conditionnel]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Spécifie l'expression. Cette version d'expression utilise les identificateurs de traçabilité à la place des noms de colonnes."
+                      name="Expression">[ISNULL](#{Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie de colonne dérivée].Columns[CODE_CLEAN]}) || [LEN](#{Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie de colonne dérivée].Columns[CODE_CLEAN]}) == 0</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Spécifie la version claire de l'expression. Cette version d'expression utilise les noms de colonnes."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(CODE_CLEAN) || LEN(CODE_CLEAN) == 0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Spécifie la position de la condition dans la liste des conditions que la transformation évalue. L'ordre d'évaluation se fait par ordre croissant de valeur."
+                      name="EvaluationOrder">1</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs.Outputs[Sortie par défaut de fractionnement conditionnel]"
+                  description="Sortie par défaut de la transformation de fractionnement conditionnel"
+                  exclusionGroup="1"
+                  name="Sortie par défaut de fractionnement conditionnel"
+                  synchronousInputId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs.Inputs[Entrée de fractionnement conditionnel]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs.Outputs[Sortie d'erreur de fractionnement conditionnel]"
+                  description="Sortie d'erreur de la transformation de fractionnement conditionnel"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de fractionnement conditionnel"
+                  synchronousInputId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs.Inputs[Entrée de fractionnement conditionnel]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs.Outputs[Sortie d'erreur de fractionnement conditionnel].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs.Outputs[Sortie d'erreur de fractionnement conditionnel].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs.Outputs[Sortie d'erreur de fractionnement conditionnel].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs.Outputs[Sortie d'erreur de fractionnement conditionnel].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Colonne dérivée;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;0"
+              description="Crée de nouvelles valeurs de colonne en appliquant des expressions aux colonnes d'entrée de transformation. Créez de nouvelles colonnes ou remplacez celles qui existent déjà. Par exemple, concaténez les valeurs de la colonne 'prénom' et de la colonne 'nom' pour créer une colonne 'nom complet'."
+              name="DC_Clean_Chauffeur"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Inputs[Entrée de colonne dérivée]"
+                  description="Entrée de la transformation de colonnes dérivées"
+                  name="Entrée de colonne dérivée">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Inputs[Entrée de colonne dérivée].Columns[CODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="CODE"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[CODE]" />
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Inputs[Entrée de colonne dérivée].Columns[NOM]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="150"
+                      cachedName="NOM"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[NOM]" />
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Inputs[Entrée de colonne dérivée].Columns[SERVICE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="SERVICE"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[SERVICE]" />
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Inputs[Entrée de colonne dérivée].Columns[statut_mobility]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="statut_mobility"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[statut_mobility]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie de colonne dérivée]"
+                  description="Sortie par défaut de la transformation de colonnes dérivées"
+                  exclusionGroup="1"
+                  name="Sortie de colonne dérivée"
+                  synchronousInputId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Inputs[Entrée de colonne dérivée]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie de colonne dérivée].Columns[CODE_CLEAN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie de colonne dérivée].Columns[CODE_CLEAN]"
+                      name="CODE_CLEAN"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">[TRIM](#{Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[CODE]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">TRIM(CODE)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie de colonne dérivée].Columns[NOM_CLEAN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      length="150"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie de colonne dérivée].Columns[NOM_CLEAN]"
+                      name="NOM_CLEAN"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">[TRIM](#{Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[NOM]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">TRIM(NOM)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie de colonne dérivée].Columns[SERVICE_ClEAN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie de colonne dérivée].Columns[SERVICE_ClEAN]"
+                      name="SERVICE_ClEAN"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">[SUBSTRING]([TRIM](#{Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[SERVICE]}),1,50)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">SUBSTRING(TRIM(SERVICE),1,50)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie de colonne dérivée].Columns[statut_mobility_CLEAN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Calcul"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie de colonne dérivée].Columns[statut_mobility_CLEAN]"
+                      name="statut_mobility_CLEAN"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression de colonne dérivée"
+                          name="Expression">[TRIM](#{Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[statut_mobility]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Expression claire de colonne dérivée"
+                          expressionType="Notify"
+                          name="FriendlyExpression">TRIM(statut_mobility)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie d'erreur de colonne dérivée]"
+                  description="Sortie d'erreur de la transformation de colonnes dérivées"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de colonne dérivée"
+                  synchronousInputId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Inputs[Entrée de colonne dérivée]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie d'erreur de colonne dérivée].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie d'erreur de colonne dérivée].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie d'erreur de colonne dérivée].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie d'erreur de colonne dérivée].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="Destination OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;4"
+              description="Destination OLE DB"
+              name="Destination sortie dim_chauffeur"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Nombre de secondes avant l'expiration d'une commande.  Une valeur égale à 0 indique un délai d'expiration infini."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowset">[dbo].[Dim_Chauffeur]</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie la variable contenant le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Commande SQL à exécuter."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie la page de codes de la colonne à utiliser lorsque les informations de page de codes ne sont pas disponibles à partir de la source de données."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Force l'utilisation de la valeur de propriété DefaultCodePage lors de la description des données caractères."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le mode utilisé pour accéder à la base de données."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les valeurs fournies pour les colonnes d'identité seront copiées à la destination. Si la valeur est définie à False, les valeurs des colonnes d'identité seront générées automatiquement à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indique si les colonnes contenant la valeur NULL auront cette valeur NULL copiée à la destination. Si la valeur est définie à False, les colonnes contenant la valeur NULL auront leurs valeurs par défaut insérées à la destination. Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie les options à utiliser avec le chargement rapide.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie quand les validations sont émises pendant l'insertion des données.  Une valeur égale à 0 spécifie qu'une validation sera émise à la fin de l'insertion des données.  Ne s'applique que si le chargement rapide est activé."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[connection_DW]"
+                  connectionManagerRefId="Package.ConnectionManagers[connection_DW]"
+                  description="Connexion OLE DB en cours d'exécution utilisée pour accéder à la base de données."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB]"
+                  errorOrTruncationOperation="Insérer"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Entrée de destination OLE DB">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].Columns[existe_dans_tms]"
+                      cachedDataType="bool"
+                      cachedName="existe_dans_tms"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].ExternalColumns[existe_dans_tms]"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[existe_dans_tms]" />
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].Columns[statut_mobility]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="statut_mobility"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].ExternalColumns[statut_mobility]"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[statut_mobility]" />
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].Columns[CODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="CODE"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].ExternalColumns[code_chauffeur]"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[CODE]" />
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].Columns[NOM]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="150"
+                      cachedName="NOM"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].ExternalColumns[nom_chauffeur]"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[NOM]" />
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].Columns[SERVICE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="SERVICE"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].ExternalColumns[SERVICE]"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[SERVICE]" />
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].Columns[SITE_CHAUFFEUR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="SITE_CHAUFFEUR"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].ExternalColumns[site_chauffeur]"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\Recherche.Outputs[Sortie de recherche avec correspondance].Columns[SITE_CHAUFFEUR]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].ExternalColumns[id_chauffeur]"
+                      dataType="i4"
+                      name="id_chauffeur" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].ExternalColumns[code_chauffeur]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="code_chauffeur" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].ExternalColumns[nom_chauffeur]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      name="nom_chauffeur" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].ExternalColumns[site_chauffeur]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="site_chauffeur" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].ExternalColumns[existe_dans_tms]"
+                      dataType="bool"
+                      name="existe_dans_tms" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].ExternalColumns[statut_mobility]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="statut_mobility" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB].ExternalColumns[SERVICE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="SERVICE" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Outputs[Sortie d'erreur de destination OLE DB]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de destination OLE DB"
+                  synchronousInputId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Outputs[Sortie d'erreur de destination OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT_Load_Dim_Chauffeur\Recherche"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Recherche;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;6"
+              description="Joint des colonnes supplémentaires au flux de données en recherchant des valeurs dans une table. Par exemple, joignez la colonne 'id employé' à la table des employés afin d'obtenir la 'date d'embauche' et le 'nom de l'employé'. Nous recommandons cette transformation lorsque la table de recherche peut être stockée en mémoire."
+              name="Recherche"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Spécifie l'instruction SQL qui génère la table de correspondance."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[STG_TMS]</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie une instruction SQL qui utilise des paramètres pour générer la table de correspondance."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[STG_TMS]) [refTable]
+where [refTable].[PLACHA1I] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le type de connexion utilisé pour accéder au dataset de référence."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le type de cache de la table de correspondance."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie comment la transformation de recherche gère les lignes sans entrées correspondantes dans le jeu de données de référence."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le pourcentage du cache alloué aux lignes sans entrées correspondantes dans le dataset de référence."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Utilisation maximale de la mémoire pour le cache de référence sur une plateforme 32 bits."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Utilisation maximale de la mémoire pour le cache de référence sur une plateforme 64 bits."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indique si les métadonnées sont à référencer en format XML."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ARTCODE" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="CDATE" dataType="DT_DBDATE" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LIVRAISON" dataType="DT_STR" length="100" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="VOYCLE" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="PLALIB" dataType="DT_STR" length="150" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="PLAMOTI" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="SALNOM" dataType="DT_STR" length="150" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="PLACHA1I" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="TIECODE" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="VOYDTD" dataType="DT_DBDATE" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="VOYHRD" dataType="DT_DBTIME2" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="VOYDTF" dataType="DT_DBDATE" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="VOYHRF" dataType="DT_DBTIME2" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="VOYPAL" dataType="DT_STR" length="100" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="SITESALARIE" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="SITECAMION" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="PLAKM2" dataType="DT_NUMERIC" length="0" precision="10" scale="2" codePage="0"/&gt;&lt;referenceColumn name="Deposant" dataType="DT_STR" length="100" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="OTSNUMBDX" dataType="DT_STR" length="100" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="Type_TRANSPORT" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="CAPACITE" dataType="DT_NUMERIC" length="0" precision="10" scale="2" codePage="0"/&gt;&lt;referenceColumn name="SITE_CHAUFFEUR" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="Type_Tournee" dataType="DT_STR" length="100" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="Type_marchandise" dataType="DT_STR" length="150" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="Temperature" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="SITE" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="LIVRAISON_MANQUANTE" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Spécifie la liste d'identificateurs de traçabilité se mappant aux paramètres utilisés dans la propriété SQLCommand par l'instruction SQL. Les entrées dans la liste sont séparées par des points-virgules."
+                  name="ParameterMap">#{Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[CODE]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie la page de codes de la colonne à utiliser lorsque les informations de page de codes ne sont pas disponibles à partir de la source de données."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Détermine si les clés dupliquées dans les données de référence doivent être traitées en tant qu'erreurs lorsque le mode Cache complet est utilisé."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT_Load_Dim_Chauffeur\Recherche.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[connection_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[connection_staging]"
+                  description="Gestionnaire de connexions utilisé pour accéder aux données de correspondance."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT_Load_Dim_Chauffeur\Recherche.Inputs[Entrée de recherche]"
+                  name="Entrée de recherche">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Recherche.Inputs[Entrée de recherche].Columns[CODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="CODE"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[CODE]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Spécifie la colonne de la table de référence sur laquelle une colonne se lie."
+                          name="JoinToReferenceColumn">PLACHA1I</property>
+                        <property
+                          dataType="System.Null"
+                          description="Spécifie la colonne de la table de référence à partir de laquelle une colonne est copiée."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT_Load_Dim_Chauffeur\Recherche.Outputs[Sortie de recherche avec correspondance]"
+                  errorOrTruncationOperation="Recherche"
+                  exclusionGroup="1"
+                  name="Sortie de recherche avec correspondance"
+                  synchronousInputId="Package\DFT_Load_Dim_Chauffeur\Recherche.Inputs[Entrée de recherche]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Recherche.Outputs[Sortie de recherche avec correspondance].Columns[SITE_CHAUFFEUR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Copie de colonnes"
+                      length="50"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\Recherche.Outputs[Sortie de recherche avec correspondance].Columns[SITE_CHAUFFEUR]"
+                      name="SITE_CHAUFFEUR"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Spécifie la colonne de la table de référence à partir de laquelle une colonne est copiée."
+                          name="CopyFromReferenceColumn">SITE_CHAUFFEUR</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Recherche.Outputs[Sortie de recherche avec correspondance].Columns[PLACHA1I]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Copie de colonnes"
+                      length="50"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\Recherche.Outputs[Sortie de recherche avec correspondance].Columns[PLACHA1I]"
+                      name="PLACHA1I"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Spécifie la colonne de la table de référence à partir de laquelle une colonne est copiée."
+                          name="CopyFromReferenceColumn">PLACHA1I</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT_Load_Dim_Chauffeur\Recherche.Outputs[Sortie de recherche sans correspondance]"
+                  description="Sortie de recherche gérant les lignes sans entrées correspondantes dans le dataset de référence. Utilisez cette sortie lorsque la propriété NoMatchBehavior a la valeur « Envoyez les lignes sans entrées correspondantes dans la sortie sans correspondance »."
+                  exclusionGroup="1"
+                  name="Sortie de recherche sans correspondance"
+                  synchronousInputId="Package\DFT_Load_Dim_Chauffeur\Recherche.Inputs[Entrée de recherche]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT_Load_Dim_Chauffeur\Recherche.Outputs[Sortie d'erreur de recherche]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de recherche"
+                  synchronousInputId="Package\DFT_Load_Dim_Chauffeur\Recherche.Inputs[Entrée de recherche]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Recherche.Outputs[Sortie d'erreur de recherche].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\Recherche.Outputs[Sortie d'erreur de recherche].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\Recherche.Outputs[Sortie d'erreur de recherche].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\Recherche.Outputs[Sortie d'erreur de recherche].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Source OLE DB;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Tous droits réservés; http://www.microsoft.com/sql/support;7"
+              description="Source OLE DB"
+              name="SRC_STG_Chauffeurs"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Nombre de secondes avant l'expiration d'une commande.  Une valeur égale à 0 indique un délai d'expiration infini."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowset">[dbo].[STG_Chauffeurs]</property>
+                <property
+                  dataType="System.String"
+                  description="Spécifie la variable contenant le nom de l'objet de base de données utilisé pour ouvrir un ensemble de lignes."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Commande SQL à exécuter."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="Variable contenant la commande SQL à exécuter."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie la page de codes de la colonne à utiliser lorsque les informations de page de codes ne sont pas disponibles à partir de la source de données."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Force l'utilisation de la valeur de propriété DefaultCodePage lors de la description des données caractères."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Spécifie le mode utilisé pour accéder à la base de données."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="Mappages entre les paramètres de la commande SQL et les variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[connection_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[connection_staging]"
+                  description="Connexion OLE DB en cours d'exécution utilisée pour accéder à la base de données."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB]"
+                  name="Sortie de source OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[CODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].ExternalColumns[CODE]"
+                      length="50"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[CODE]"
+                      name="CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[NOM]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].ExternalColumns[NOM]"
+                      length="150"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[NOM]"
+                      name="NOM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[SERVICE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].ExternalColumns[SERVICE]"
+                      length="100"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[SERVICE]"
+                      name="SERVICE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[existe_dans_tms]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].ExternalColumns[existe_dans_tms]"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[existe_dans_tms]"
+                      name="existe_dans_tms"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[statut_mobility]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].ExternalColumns[statut_mobility]"
+                      length="50"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].Columns[statut_mobility]"
+                      name="statut_mobility"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].ExternalColumns[CODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="CODE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].ExternalColumns[NOM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      name="NOM" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].ExternalColumns[SERVICE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="SERVICE" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].ExternalColumns[existe_dans_tms]"
+                      dataType="bool"
+                      name="existe_dans_tms" />
+                    <externalMetadataColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB].ExternalColumns[statut_mobility]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="statut_mobility" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie d'erreur de source OLE DB]"
+                  isErrorOut="true"
+                  name="Sortie d'erreur de source OLE DB">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie d'erreur de source OLE DB].Columns[CODE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie d'erreur de source OLE DB].Columns[CODE]"
+                      name="CODE" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie d'erreur de source OLE DB].Columns[NOM]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie d'erreur de source OLE DB].Columns[NOM]"
+                      name="NOM" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie d'erreur de source OLE DB].Columns[SERVICE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie d'erreur de source OLE DB].Columns[SERVICE]"
+                      name="SERVICE" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie d'erreur de source OLE DB].Columns[existe_dans_tms]"
+                      dataType="bool"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie d'erreur de source OLE DB].Columns[existe_dans_tms]"
+                      name="existe_dans_tms" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie d'erreur de source OLE DB].Columns[statut_mobility]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie d'erreur de source OLE DB].Columns[statut_mobility]"
+                      name="statut_mobility" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie d'erreur de source OLE DB].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie d'erreur de source OLE DB].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie d'erreur de source OLE DB].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie d'erreur de source OLE DB].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT_Load_Dim_Chauffeur.Paths[Chauffeurs_Valides]"
+              endId="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur.Inputs[Entrée de destination OLE DB]"
+              name="Chauffeurs_Valides"
+              startId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs.Outputs[Chauffeurs_Valides]" />
+            <path
+              refId="Package\DFT_Load_Dim_Chauffeur.Paths[Sortie de colonne dérivée]"
+              endId="Package\DFT_Load_Dim_Chauffeur\Recherche.Inputs[Entrée de recherche]"
+              name="Sortie de colonne dérivée"
+              startId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Outputs[Sortie de colonne dérivée]" />
+            <path
+              refId="Package\DFT_Load_Dim_Chauffeur.Paths[Sortie de recherche avec correspondance]"
+              endId="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs.Inputs[Entrée de fractionnement conditionnel]"
+              name="Sortie de recherche avec correspondance"
+              startId="Package\DFT_Load_Dim_Chauffeur\Recherche.Outputs[Sortie de recherche avec correspondance]" />
+            <path
+              refId="Package\DFT_Load_Dim_Chauffeur.Paths[Sortie de source OLE DB]"
+              endId="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur.Inputs[Entrée de colonne dérivée]"
+              name="Sortie de source OLE DB"
+              startId="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs.Outputs[Sortie de source OLE DB]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Cette section CDATA contient des informations sur la disposition du package. Elle comprend des informations telles que les coordonnées (x,y), la largeur et la hauteur.-->
+<!--Si vous modifiez manuellement cette section et commettez une erreur, vous pouvez la supprimer. -->
+<!--Le package pourra toujours se charger normalement, mais les informations de disposition précédente seront perdues et le concepteur réorganisera automatiquement les éléments sur l'aire de conception.-->
+<Objects
+  Version="8">
+  <!--Chaque nœud ci-dessous contiendra des propriétés qui n'affectent pas le comportement d'exécution.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="203.2,41.6"
+          Id="Package\DFT_Load_Dim_Chauffeur"
+          TopLeft="227.499987569949,156.866665575835" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT_Load_Dim_Chauffeur">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="205.6,41.6"
+          Id="Package\DFT_Load_Dim_Chauffeur\condition_Valid_Chauffeurs"
+          TopLeft="249.1666530528,364.866664129429" />
+        <NodeLayout
+          Size="184,41.6"
+          Id="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs"
+          TopLeft="241.666653462583,49.3999996564785" />
+        <NodeLayout
+          Size="227.2,41.6"
+          Id="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur"
+          TopLeft="241.666653462582,486.199996619026" />
+        <NodeLayout
+          Size="128.8,41.6"
+          Id="Package\DFT_Load_Dim_Chauffeur\Recherche"
+          TopLeft="279.999984701475,249.599998264313" />
+        <NodeLayout
+          Size="177.6,41.6"
+          Id="Package\DFT_Load_Dim_Chauffeur\DC_Clean_Chauffeur"
+          TopLeft="246.666653189395,153.399998933276" />
+        <EdgeLayout
+          Id="Package\DFT_Load_Dim_Chauffeur.Paths[Sortie de source OLE DB]"
+          TopLeft="334.566653325989,90.9999996564785">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,62.3999992767975"
+              Start="0,0"
+              End="0,54.8999992767975">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54.8999992767975" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT_Load_Dim_Chauffeur.Paths[Sortie de recherche avec correspondance]"
+          TopLeft="348.183318877138,291.199998264313">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,73.6666658651164"
+              Start="0,0"
+              End="0,66.1666658651164">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,66.1666658651164" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-91.67701171875,27.2786454325582,183.3540234375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT_Load_Dim_Chauffeur.Paths[Sortie de colonne dérivée]"
+          TopLeft="335.466653189395,194.999998933276">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="8.93333151208031,54.5999993310368"
+              Start="0,0"
+              End="8.93333151208031,47.0999993310368">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.2999996655184" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.2999996655184"
+                    Point2="0,27.2999996655184"
+                    Point3="4,27.2999996655184" />
+                  <mssgle:LineSegment
+                    End="4.93333151208031,27.2999996655184" />
+                  <mssgle:CubicBezierSegment
+                    Point1="4.93333151208031,27.2999996655184"
+                    Point2="8.93333151208031,27.2999996655184"
+                    Point3="8.93333151208031,31.2999996655184" />
+                  <mssgle:LineSegment
+                    End="8.93333151208031,47.0999993310368" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT_Load_Dim_Chauffeur.Paths[Chauffeurs_Valides]"
+          TopLeft="353.616653257691,406.466664129429">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,79.7333324895965"
+              Start="0,0"
+              End="0,72.2333324895965">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,72.2333324895965" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-42.84009765625,30.5610021822982,85.6801953125,11.111328125"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT_Load_Dim_Chauffeur\SRC_STG_Chauffeurs">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT_Load_Dim_Chauffeur\Destination sortie dim_chauffeur">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT_Load_Dim_Chauffeur\Recherche">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[STG_TMS]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
