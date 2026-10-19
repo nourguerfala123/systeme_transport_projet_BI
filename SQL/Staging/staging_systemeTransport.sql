@@ -1,0 +1,89 @@
+use staging_systemeTransport;
+SELECT name
+FROM sys.databases
+WHERE name IN ('DW_systemeTransport', 'staging_systemeTransport');
+
+
+
+CREATE TABLE STG_TMS (
+    ARTCODE VARCHAR(50) NULL,
+    CDATE DATE NULL,
+    LIVRAISON VARCHAR(100) NULL,
+    VOYCLE VARCHAR(50) NOT NULL,
+    PLALIB VARCHAR(150) NULL,
+    PLAMOTI VARCHAR(50) NULL,
+    SALNOM VARCHAR(150) NULL,
+    PLACHA1I VARCHAR(50) NULL,
+    TIECODE VARCHAR(50) NULL,
+    VOYDTD DATE NULL,
+    VOYHRD TIME NULL,
+    VOYDTF DATE NULL,
+    VOYHRF TIME NULL,
+    VOYPAL VARCHAR(100) NULL,
+    SITESALARIE VARCHAR(50) NULL,
+    SITECAMION VARCHAR(50) NULL,
+    PLAKM2 DECIMAL(10,2) NULL,
+    Deposant VARCHAR(100) NULL,
+    OTSNUMBDX VARCHAR(100) NULL,
+    Type_TRANSPORT VARCHAR(50) NULL,
+    CAPACITE DECIMAL(10,2) NULL,
+    SITE_CHAUFFEUR VARCHAR(50) NULL,
+    Type_Tournee VARCHAR(100) NULL,
+    Type_marchandise VARCHAR(150) NULL,
+    Temperature VARCHAR(50) NULL,
+    SITE VARCHAR(50) NULL,
+    LIVRAISON_MANQUANTE BIT NULL
+);
+GO
+SELECT * FROM STG_TMS;
+
+CREATE TABLE STG_Mobility_Events (
+    voycle VARCHAR(50) NULL,
+    chauff VARCHAR(50) NULL,
+    camion VARCHAR(50) NULL,
+    date_idb DATETIME NULL,
+    name_event VARCHAR(100) NULL,
+    date_saisi DATETIME NULL,
+    KM DECIMAL(10,2) NULL,
+    commentaire VARCHAR(500) NULL,
+    client VARCHAR(150) NULL,
+    next_destination VARCHAR(150) NULL,
+    images VARCHAR(500) NULL,
+    time_event DATETIME NULL,
+    event_from VARCHAR(100) NULL,
+    tempurature VARCHAR(50) NULL,
+    SITE VARCHAR(50) NULL,
+    voyage_str VARCHAR(255) NULL,
+    nature_voyage VARCHAR(150) NULL,
+    delai_saisie_min DECIMAL(12,2) NULL,
+    categorie_remontee VARCHAR(100) NULL,
+    delai_sai_even DECIMAL(12,2) NULL,
+    time_event_manquante BIT NULL,
+    camion_tms VARCHAR(50) NULL
+);
+GO
+SELECT * FROM STG_Mobility_Events;
+
+
+CREATE TABLE STG_User_Mobility (
+    username VARCHAR(100) NULL,
+    display_name VARCHAR(150) NULL
+);
+GO
+
+
+CREATE TABLE STG_Chauffeurs (
+    CODE VARCHAR(50) NULL,
+    NOM VARCHAR(150) NULL,
+    SERVICE VARCHAR(100) NULL,
+    existe_dans_tms BIT NULL,
+    statut_mobility VARCHAR(50) NULL
+);
+GO
+
+
+SELECT 
+    TABLE_NAME
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_TYPE = 'BASE TABLE'
+ORDER BY TABLE_NAME;
