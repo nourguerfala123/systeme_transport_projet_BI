@@ -1,0 +1,5 @@
+
+# Fichiers temporaires Visual Studio / SSIS
+SSIS/systemeTransport/bin/
+SSIS/systemeTransport/obj/
+SSIS/systemeTransport/*.dtproj.user
